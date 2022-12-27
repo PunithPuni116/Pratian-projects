@@ -1,0 +1,13 @@
+package com.caseStudy.bank.user;
+
+public class Test {
+	public static void main(String[] args) throws AccountCannotOpenException {
+		User u=new User();
+		try {
+			u.createAccount();;
+		} catch (AccountCannotOpenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

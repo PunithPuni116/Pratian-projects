@@ -1,0 +1,36 @@
+ package com.sa.factoryImpl;
+
+import com.sa.entities.CurrentAccount;
+import com.sa.entities.IAccount;
+import com.sa.entities.SavingsAccount;
+import com.sa.exceptions.InvalidAccountTypeException;
+
+//Creating different accounts
+public class AccountFactory {
+	
+	public static long accNo = 1000;
+	
+	public static IAccount create(String accType) throws InvalidAccountTypeException {
+		
+		IAccount account = null;
+		
+		if(accType != null) {
+			if(accType.equals("Savings")) {
+				account = new SavingsAccount();
+			}
+			else if (accType.equals("Current")) {
+				account = new CurrentAccount();
+			}
+			else
+				throw new InvalidAccountTypeException("Invalid Account Type..");
+			
+			account.setAccNo(generateAccNo());
+		}
+		return account;
+	}
+	
+	public static long generateAccNo() {
+		return accNo++;
+	}
+
+}

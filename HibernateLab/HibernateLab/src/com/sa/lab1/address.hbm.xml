@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 5.3//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-5.3.dtd">
+<hibernate-mapping>
+    <class name="com.sa.lab1.Address" table="address"> <!-- table name -->
+        <id name="id"> <!-- Primary key -->
+            <generator class="native"></generator> <!-- Auto generated values -->
+        </id>
+        <property name="streetName"></property> <!-- column names -->
+        <property name="city"></property> <!-- column names -->
+        <property name="pincode"></property>
+    </class>
+</hibernate-mapping>

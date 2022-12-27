@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings>
+	<entity class="com.sa.entities.Address" name="address">
+		<table name="Address1" />
+		<attributes>
+			<id name="id">
+				<generated-value strategy="sequence" generator="address_generator" />
+			</id>
+			<attribute name="streetName"></attribute>
+			<attribute name="city"></attribute>
+			<attribute name="pincode"></attribute>
+		</attributes>
+	</entity>
+	<sequence-generator name="address_generator" sequence-name="address_seq" />
+</entity-mappings>

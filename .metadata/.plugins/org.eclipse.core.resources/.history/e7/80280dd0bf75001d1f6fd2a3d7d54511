@@ -1,0 +1,90 @@
+package com.Application;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+public class TransferLog {
+	
+		public static HashMap<Integer,List<TransferInfo>>transferLog=new HashMap<>();
+		public static List<TransferInfo>list=new ArrayList<>();
+		
+		
+		public boolean transferValidate(TransferInfo transferInfo,Account account) {
+			TransferMode transferMode=transferInfo.getTransferMode();
+			Privilege privilege=account.getPrivilege();
+			double amount=totalAmountTransfered(transferInfo,account);
+			LocalDate date=transferInfo.getDateOfTransfer();
+			if(account.getPrivilege()==Privilege.PREMIUM && transferInfo.getTransferAmount()>100000 && amount>100000 && date==LocalDate.now()) {
+				return false;
+			}
+			else if(account.getPrivilege()==Privilege.GOLD && transferInfo.getTransferAmount()>50000 && amount>50000 && date==LocalDate.now())
+				return false;
+			else if(account.getPrivilege()==Privilege.SILVER && transferInfo.getTransferAmount()>25000 && amount>25000 && date==LocalDate.now())
+				return false;
+			
+			return true;
+			
+			
+			
+		}
+		
+		
+		public static List<TransferInfo> getTransferListOfAccount(Account account){
+			
+			return transferLog.get(account.getAccountNumber());
+			
+			
+		}
+		
+		public double totalAmountTransfered(TransferInfo transferInfo, Account account) {
+			
+			List<TransferInfo>list=getTransferListOfAccount(account);
+			double amount=0;
+			for(TransferInfo transferInfo1 : list) {
+				if(transferInfo1.getDateOfTransfer()==LocalDate.now())
+					amount+=transferInfo1.getTransferAmount();
+			}
+			return amount;
+		}
+		
+		
+		public static void addTransferInfoToLog(TransferInfo transferInfo) {
+			
+			if(transferLog.containsKey(transferInfo.getFromAccountNumber())) {
+				List<TransferInfo>list=transferLog.get(transferInfo.getFromAccountNumber());
+				list.add(transferInfo);
+				transferLog.put(transferInfo.getFromAccountNumber(), list);
+				
+			}
+			else {
+				List<TransferInfo>list=new ArrayList<>();
+				list.add(transferInfo);
+				transferLog.put(transferInfo.getFromAccountNumber(), list);
+			}
+		}
+		
+		public void transferdetails() {
+			Scanner input=new Scanner(System.in);
+			System.out.println("Enter account number :");
+			int accountNumber=input.nextInt();
+			System.out.println("Enter account type :");
+			String accType=input.next();
+			AccountManager accountManager=new AccountManager();
+			Account account=accountManager.getAccountFromManager(accType, accountNumber);
+			
+			
+				List<TransferInfo>list=getTransferListOfAccount(account);
+				for(TransferInfo t: list) {
+					System.out.println(t);
+				}
+		}
+
+
+		
+		
+			
+			
+}

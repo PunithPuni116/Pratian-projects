@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings>
+	<entity class="com.sa.entities.User" name="user">
+		<table name="User1" />
+		<attributes>
+			<id name="userId">
+				<generated-value strategy="sequence" generator="user_generator" />
+			</id>
+			<attribute name="userName"></attribute>
+			<attribute name="age"></attribute>
+		</attributes>
+	</entity>
+	<sequence-generator name="user_generator" sequence-name="user_seq" />
+</entity-mappings>

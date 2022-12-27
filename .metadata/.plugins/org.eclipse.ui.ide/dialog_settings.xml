@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="NewWizardAction">
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.m2e.core.wizards.Maven2ProjectWizard"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.m2e"/>
+		</list>
+	</section>
+	<section name="ExternalProjectImportWizard">
+		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\615059363\Downloads\ORM_LAB_2_Final"/>
+			<item value="C:\Users\615059363\Downloads\ORM_Lab_01"/>
+			<item value="C:\Users\615059363\Downloads\Address_JPA_Annotations"/>
+			<item value="C:\Users\615059363\OneDrive - BT Plc\Documents\Hibernate_lab3,4"/>
+			<item value="C:\Users\615059363\Downloads\Hibernate"/>
+			<item value="C:\Users\615059363\Downloads\1JPA_XMLEx"/>
+			<item value="C:\Users\615059363\Downloads\1BankOfSuccess"/>
+			<item value="C:\Users\615059363\Downloads\Hibernate_lab1,2"/>
+			<item value="C:\Users\615059363\Downloads\ExceptionDemo1"/>
+			<item value="C:\Users\615059363\Downloads\TrainingApp"/>
+			<item value="C:\Users\615059363\OneDrive - BT Plc\Documents\Punith c_TrainerTraineeaap"/>
+			<item value="C:\Users\615059363\Downloads\EightQueens_Question-master"/>
+			<item value="C:\Users\615059363\Downloads\Lab_09"/>
+			<item value="C:\Users\615059363\Downloads\NumberPuzzle_Game-master_3 (1)"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
+	<section name="SmartImportWizard">
+		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\615059363\Downloads\ORM_LAB_04 (1)"/>
+			<item value="C:\Users\615059363\Downloads\ORM_LAB_04"/>
+			<item value="C:\Users\615059363\Downloads\ORM_Lab_03"/>
+			<item value="C:\Users\615059363\Downloads\ORM_Lab_02 (1)"/>
+			<item value="C:\Users\615059363\Downloads\ORM_Lab_01_Jpa"/>
+			<item value="C:\Users\615059363\Downloads\Spring Codebases - Labs and Hands on"/>
+			<item value="C:\Users\615059363\Downloads\ORM_Lab_02"/>
+			<item value="C:\Users\615059363\Downloads\ORM_LAB_2_Final\ORM_LAB_2_Final"/>
+			<item value="C:\Users\615059363\Downloads\ORM_Lab_01"/>
+			<item value="C:\Users\615059363\Downloads\HibernateLab"/>
+			<item value="C:\Users\615059363\Downloads\1HeartiHealth"/>
+			<item value="C:\Users\615059363\Videos\BankOfSuccessBT _assignment1"/>
+			<item value="C:\Users\615059363\Downloads\BankOfSuccessBT _assignment"/>
+			<item value="C:\Users\615059363\Downloads\BankOfSuccessBT (1)"/>
+			<item value="C:\Users\615059363\Downloads\BankOfSuccessBT"/>
+			<item value="C:\Users\615059363\Downloads\bank"/>
+			<item value="C:\Users\615059363\Downloads\EightQueens_Question-master (1) (2)\EightQueens_Question-master\EightQueens_Question"/>
+		</list>
+	</section>
+</section>

@@ -1,0 +1,17 @@
+package Series;
+
+import java.util.Scanner;
+
+public class Series2 {
+	public static void main(String[] args) {
+	
+	Scanner input=new Scanner(System.in);
+	int n=input.nextInt();
+	int num=0;
+	for(int i=1;i<n;i++) {
+		num=num+i*i;
+		System.out.print(num+" ");
+		}
+	}
+	
+}

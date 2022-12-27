@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+    <class name="com.sa.lab5.Question" table="questions" >
+        <id name="id" type="integer" column="id">            
+            <generator class="assigned" />
+        </id>
+        
+        <discriminator column="DISCRIMINATOR" type="string"></discriminator>
+        <property name="totalMarks" type="integer" column="totalMarks" />
+    </class>
+       
+        <joined-subclass name="com.sa.lab5.MCQQuestion" extends="com.sa.lab5.Question" table="MCQ_Questions" discriminator-value="MCQ">
+        <key column="id"/>
+                <property name="questionDescription" type="string" column="QuestionDescription" />
+                <property name="option1" type="string" column="option1" />
+                <property name="option2" type="string" column="option2" />
+                <property name="option3" type="string" column="option3" />
+                <property name="option4" type="string" column="option4" />  
+                <property name="rigthOption" type="string" column="rigth_Option" />                         
+        </joined-subclass>
+        
+        <joined-subclass name="com.sa.lab5.HandonQuestion" extends="com.sa.lab5.Question" table="Hands_on_Questions" discriminator-value="HandsOn">
+        <key column="id"/>
+                <property name="question" type="string" column="Question" />
+                <property name="userAnswer" type="string" column="User_Answer" />
+                <property name="rigthAnser" type="string" column="Rigth_Answer" />                
+        </joined-subclass> 
+                  
+</hibernate-mapping>

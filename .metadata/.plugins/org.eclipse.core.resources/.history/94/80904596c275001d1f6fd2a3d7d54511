@@ -1,0 +1,64 @@
+package com.Application;
+
+import java.time.LocalDate;
+
+public class TransferInfo {
+	
+	private int transferId;
+	private int fromAccountNumber;
+	private int toAccountNumber;
+	private LocalDate dateOfTransfer;
+	private TransferMode transferMode;
+	private double transferAmount;
+	private static int autoTransferId=1;
+	
+	
+	public int getTransferId() {
+		return transferId;
+	}
+	
+	public void setTransferId() {
+		this.transferId = autoTransferId++;
+	}
+	public int getFromAccountNumber() {
+		return fromAccountNumber;
+	}
+	public void setFromAccountNumber(int fromAccountNumber) {
+		this.fromAccountNumber = fromAccountNumber;
+	}
+	public int getToAccountNumber() {
+		return toAccountNumber;
+	}
+	public void setToAccountNumber(int toAccountNumber) {
+		this.toAccountNumber = toAccountNumber;
+	}
+	public LocalDate getDateOfTransfer() {
+		return dateOfTransfer;
+	}
+	public void setDateOfTransfer(LocalDate dateOfTransfer) {
+		this.dateOfTransfer = dateOfTransfer;
+	}
+	public TransferMode getTransferMode() {
+		return transferMode;
+	}
+	public void setTransferMode(TransferMode transferMode) {
+		this.transferMode = transferMode;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "TransferInfo [transferId=" + transferId + ", fromAccountNumber=" + fromAccountNumber
+				+ ", toAccountNumber=" + toAccountNumber + ", dateOfTransfer=" + dateOfTransfer + ", transferMode="
+				+ transferMode + ", transferAmount=" + transferAmount + ", fromAccountType=" + fromAccountType
+				+ ", toAccountType=" + toAccountType + "]";
+	}
+
+	public double getTransferAmount() {
+		return transferAmount;
+	}
+	public void setTransferAmount(double transferAmount) {
+		this.transferAmount = transferAmount;
+	}
+	
+}

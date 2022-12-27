@@ -1,0 +1,126 @@
+package com.caseStudy.bank.user;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Scanner;
+
+import com.caseStudy.bank.Current;
+import com.caseStudy.bank.Savings;
+
+public class User {
+	static Scanner input=new Scanner(System.in);
+	static Savings s=new Savings();
+	static Current c=new Current();
+//	public void createAccount() throws AccountCannotOpenException {
+//		System.out.println("Welcome to Bank Of Success!!!!! \n\n");
+//		
+//		System.out.println("Create an Account : \n");
+//		System.out.println("1.To open savings account ");
+//		System.out.println("2.To open current account \n");
+//		System.out.println("Enter valid key go ahead :");
+//		int n=input.nextInt();
+//		switch(n) {
+//			case 1: openSavingsAccount();
+//				break;
+//			case 2:
+//				openCurrentAccount();
+//				break;
+//		}
+//		
+//		
+//	}
+	
+	
+	public void openSavingsAccount(HashMap<Integer,Savings>map) throws AccountCannotOpenException {
+		//getting name from customer
+		System.out.println("Please Enter Your Name : ");
+		String name=input.next();
+		
+		//getting DOB from customer
+		System.out.println("Enter your Birth date in dd-mm-yyy format ex: (09-nov-2000)");
+		String dob=input.next();
+		
+		//converting date to local date
+		System.out.println("Enter you'r gender: ");
+		String gender=input.next();
+		
+		System.out.println("Enter your mobile number : ");
+		long mobNumber=input.nextLong();
+		
+		//creating a new saving account
+		
+		
+		//converting date to local date
+		LocalDate ld=LocalDate.now();
+		Instant instant = s.getBirthDate().toInstant(); 
+		ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault()); 
+		LocalDate date = zdt.toLocalDate();
+
+		//calculating age
+		int age=Period.between(date, ld).getYears(); 
+		
+		//setting up pin
+		System.out.println("Create your pin : ");
+		s.setPin(input.nextInt());
+		
+		if(age>18) {
+			s.setActive(true);
+		}
+		else {
+			throw new AccountCannotOpenException("Your minor account cannot be opened");
+		}
+		map.put(s.getAccountNo(), s);
+		System.out.println("Account Created Successfully!!!!!!!\n");
+		System.out.println("Account number 		:"+s.getAccountNo());
+		System.out.println("Account holder name :"+s.getName());
+		System.out.println("Mobile number		:"+s.getPhoneNumber());
+		System.out.println("Date of Birth       :"+s.getBirthDate());
+		System.out.println("Account created on "+s.getActivateDate());
+	}
+	
+	public void openCurrentAccount() {
+		//getting name from customer
+		System.out.println("Please Enter Your Name : ");
+		String name=input.next();
+				
+		//getting DOB from customer
+		System.out.println("Enter your Birth date in dd-mm-yyy format ex: (09-nov-2000)");
+		String dob=input.next();
+		
+		//getting company name
+		System.out.println("Mention your company name: ");
+		String companyName=input.next();
+		
+		System.out.println("Mention your company website: ");
+		String website=input.next();
+		
+		
+		//getting reg no
+		int regNo=0;
+		try{
+			
+			System.out.println("Enter valid registation no: ");
+		     String regn= input.next();
+		     regNo=Integer.parseInt(regn);
+		} 
+		catch (NumberFormatException e){
+		    System.out.println(e+" "+"Enter valid registation number");
+		
+		}
+		Current c=new Current(name,companyName,regNo,website);
+		
+		System.out.println("Account Created Successfully!!!!!!!\n");
+		System.out.println("Account number 		:"+c.getAccountNo());
+		System.out.println("Account holder name :"+c.getName());
+		System.out.println("Company name		:"+c.getCompanyName());
+		System.out.println("Account created on "+c.getActivateDate());
+		
+		
+		
+	}
+}

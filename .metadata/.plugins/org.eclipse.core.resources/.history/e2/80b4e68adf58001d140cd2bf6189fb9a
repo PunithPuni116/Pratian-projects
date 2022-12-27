@@ -1,0 +1,20 @@
+package Basics;
+
+import java.util.Scanner;
+
+class employ{
+	
+	
+	 int he;
+}
+public class TaxCalculator {
+	public static void main(String[] args) {
+		employ em=new employ();
+		em.he=5;
+		System.out.println(em.he);	}
+	
+}
+
+
+
+

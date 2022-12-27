@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+
+<hibernate-mapping package="com.hibernate_lab">
+    <class name="Question" table="Hibernate_lab_5_xml" >
+        <id name="questionNo" type="integer" column="Question_No">            
+            <generator class="assigned" />
+        </id>
+        
+        <discriminator column="DISCRIMINATOR" type="string"></discriminator>
+        
+        <property name="marks" type="integer" column="marks" />
+      
+        <subclass name="McqQuestion" extends="Question" discriminator-value="Mcq Question">
+        		 <property name="questionName" type="string" column="Question_name" />
+                <property name="option1" type="string" column="option_1" />
+                <property name="option2" type="string" column="optinon_2" />
+                <property name="option3" type="string" column="option_3" />
+                <property name="option4" type="string" column="option_4" />
+                <property name="rightOption" type="string" column="right_option" />
+                          
+        </subclass>
+        
+        <subclass name="HandsOnQuestion" extends="Question" discriminator-value="HandsOnQuestion">
+                <property name="questionDes" type="String" column="Question_description" />
+                <property name="referenceDocument" type="string" column="referenceDocument" />                
+        </subclass>
+                  
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;TestMain.java&apos; to &apos;Hibernate_lab_2/src&apos;&#x0D;&#x0A;- Original project: &apos;1JPA_XMLEx&apos;&#x0D;&#x0A;- Destination element: &apos;Hibernate_lab_2/src&apos;&#x0D;&#x0A;- Original element: &apos;com.sa.main.TestMain.java&apos;" description="Copy compilation unit" destination="=Hibernate_lab_2/src" element1="/src&lt;com.sa.main{TestMain.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1669895289824" units="1" version="1.0"/>
+</session>

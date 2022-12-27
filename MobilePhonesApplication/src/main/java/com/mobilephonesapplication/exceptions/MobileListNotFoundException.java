@@ -1,0 +1,30 @@
+package com.mobilephonesapplication.exceptions;
+
+public class MobileListNotFoundException extends Exception{
+
+	public MobileListNotFoundException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MobileListNotFoundException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
+		super(arg0, arg1, arg2, arg3);
+		// TODO Auto-generated constructor stub
+	}
+
+	public MobileListNotFoundException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+		// TODO Auto-generated constructor stub
+	}
+
+	public MobileListNotFoundException(String arg0) {
+		super(arg0);
+		// TODO Auto-generated constructor stub
+	}
+
+	public MobileListNotFoundException(Throwable arg0) {
+		super(arg0);
+		// TODO Auto-generated constructor stub
+	}
+
+}

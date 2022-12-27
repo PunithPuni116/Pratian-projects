@@ -1,0 +1,277 @@
+package com.Application;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+//Control Class - This class is written to manage the activities and rules
+//for an account
+public class AccountManager {
+
+    //Method to open an account
+    public boolean open(Account account, String accType) throws InvalidAgeForOpeningAnAccountException {
+
+        //Declaration
+        boolean isOpened = false;
+
+        //Logic to open an account - Savings or Current
+        //OCP - Open Closed Principle
+        //A class should be open for extension but closed for modification
+        //This is not satisfying OCP
+        //Solution - Runtime Polymorphism
+        //Strategy Design Pattern
+
+        //Program to an interface and not to implementation
+        //Expose Abstractions and hide Implementations
+        /*if(account instanceof Savings){
+            isOpened = new SavingsImpl().open(account);
+        }
+        else if(account instanceof Current){
+            isOpened = new CurrentImpl().open(account);
+        }*/
+        /*else if(account instanceof Mortgage){
+
+            //Here logic for opening the account
+        }
+        else if(account instanceof SavingsLoan){
+
+            //Here logic for opening the account
+        }*/
+
+        //Here we are satisfying OCP.
+        //Why - Any account type in the future below lines need not change
+        IAccountImpl accountImpl = AccountImplFactory.create(accType);
+        isOpened = accountImpl.open(account);
+       
+
+        //Return the status
+        return isOpened;
+    }
+
+    //Method to open an account
+    public boolean close(int accountNumber,int pinNumber) throws InvalidPinNumberException {
+
+        //Declaration
+        boolean isClosed = false;
+        Account account=getAccountFromManager(accountNumber);
+        
+        boolean isValidPin=validatePinNumber(pinNumber,account);
+        if(isValidPin) {
+        	account.setActive(false);
+        	isClosed= true;
+        	addAccountToAccountLog(account);
+        }
+        else {
+        	throw new InvalidPinNumberException("wrong pi number");
+        }
+        return isClosed;
+        //Logic to implement account closure
+        //Check if account is already closed. If closed then throw exception
+        //If not then set the closed date to current date
+        //Set the isactive status to false
+
+        //Return the stat
+    }
+
+    //Method to withdraw from an account
+    public boolean withdraw(int accountNumber, int pinNumber, double amountToWithdraw) throws AccountNotActiveException, InsufficientBalanceException {
+
+        //Declaration
+        boolean isWithdrawn = false;
+        Account account=getAccountFromManager(accountNumber);
+        //Logic to implement account closure. Each logic below should be separate method
+        //If account not active or no sufficient funds then raise exception
+        	boolean isPinvalid=validatePinNumber(pinNumber,account);
+        //1. Check if from account is active
+        	if(!isAccountActive(account)) {
+        		return false;
+        	}
+        //2. Check if funds are there in the account
+        	isWithdrawn=isAccountHaveBalance(account,amountToWithdraw);
+        	
+        	if(isWithdrawn) {
+        		withdrawAmount(account,amountToWithdraw);
+        		isWithdrawn = true;
+        		//update to account log
+        		addAccountToAccountLog(account);
+        	}
+        	
+        	addAccountToAccountLog(account);
+        //3. Deduct money and then update the balance
+
+        //4. Update Status
+       
+
+        //Return the status
+        return isWithdrawn;
+    }
+
+    //Method to deposit into account
+    public boolean deposit(int accountNumber,int pinNumber,double amount) throws AccountNotActiveException {
+
+        //Declaration
+    	boolean isDeposited = false;
+
+    	Account account=getAccountFromManager(accountNumber);
+        
+        //Logic to implement account closure. Each logic below should be separate method
+    	boolean isPinVlaid=validatePinNumber(pinNumber,account);
+        //If account not active or no sufficient funds then raise exception
+    	 if(!isAccountActive(account)) {
+    		 return false;
+    	 }
+        //1. Check if to account is active
+    	
+        //2. Add money and then update the balance
+    	 addAmountToAccount(account ,amount);
+    	 addAccountToAccountLog(account);
+        //3. Update Status
+        isDeposited = true;
+
+        //Return the status
+        return isDeposited;
+    }
+    
+    public boolean validatePinNumber(int pinNumber, Account account) {
+    	try {
+	    	if(pinNumber==account.getPinNumber())
+	    		return true;
+	    	else {
+	    		throw new InvalidPinNumberException("Entered pin number is wrong");
+	    	}
+    	}
+    	catch(InvalidPinNumberException e) {
+    		System.out.println(e.getMessage());
+    	}
+    	return false;
+    }
+    
+    
+    public Account getAccountFromManager(int accountNumber) {
+    	AccountLog accountLog=new AccountLog();
+    	return accountLog.getAccountFromAccountLog(accountNumber);
+    }
+
+    //Method to deposit into account
+    
+    public boolean transfer(TransferInfo transferInfo,Account fromAccount,Account toAccount) throws AccountNotActiveException, InsufficientBalanceException {
+
+        //Declaration
+        boolean isTransferred = false;
+        
+        //checking if both accounts are active
+       boolean isFromAccountActive= isAccountActive(fromAccount);
+       boolean isToAccountActive= isAccountActive(toAccount);
+       
+        //if both are acative
+       if(isFromAccountActive && isToAccountActive) {
+    	  //System.out.println("both account active");
+    	   
+    	   //to check if account have balance
+    	   boolean isAccountHaveBalance=isAccountHaveBalance(fromAccount,transferInfo.getTransferAmount());
+    	   
+    	   //if it has sufficient balance
+    	   if(isAccountHaveBalance) {
+    		   
+    		   //calling the transfer log
+    		   boolean checkTransferLimit=checkTransferLimit(fromAccount,transferInfo.getTransferAmount(),transferInfo);
+    		   
+//    		   TransferLog transferLog=new TransferLog();
+//    		   
+//    		   boolean isTrnsferCanBeDone=transferLog.transferValidate(transferInfo,fromAccount);
+//    		   if(isTrnsferCanBeDone) {
+//    			   System.out.println("Transfer is posssible");
+    		   if( checkTransferLimit) {
+	    		   transferAmount(fromAccount,toAccount,transferInfo);
+	    		   isTransferred=true;
+	    		   transferInfo.setDateOfTransfer(LocalDate.now());
+	    		   
+	    		   TransferLog transferLog=new TransferLog();
+	    		   transferLog.addTransferInfoToLog(transferInfo);
+	    		   addAccountToAccountLog(fromAccount);
+	    		   addAccountToAccountLog(toAccount);
+	    		   isTransferred=true;
+	    		   
+	    		   System.out.println("Transfer done\n");
+    		   }
+    		   else {
+    			   System.out.println("Transfer cannot be done. Amount Exceeded than limit ");
+    		   }
+    		   
+    	   }
+    	   
+    		  
+    		   
+    		   
+    	   }
+       
+        
+        //..
+
+        //Update Status
+
+        //Return the status
+        return isTransferred;
+    }
+    
+    public void addAccountToAccountLog(Account account) {
+    	AccountLog accountLog=new AccountLog();
+    	accountLog.AddAccountToAccountLog(account);
+    }
+    
+    public boolean isAccountActive(Account account) throws AccountNotActiveException {
+    	if(account.isActive())
+    		return true;
+    	else {
+    		throw new AccountNotActiveException("Account is not active");
+    	}
+    }
+    
+    public void addAmountToAccount(Account account,double amount) {
+    	account.setBalance(account.getBalance()+amount);
+    }
+    
+    public boolean isAccountHaveBalance(Account account,double amount) throws InsufficientBalanceException {
+    	try {
+	    	if(account.getBalance()<amount)
+	    		throw new InsufficientBalanceException("Sorry!! Insufficient balance ");
+	    	else {
+	    		return true;
+	    	}
+    	}
+	    	catch(InsufficientBalanceException e) {
+	    		System.out.println(e.getMessage());
+	    	}
+    	return false;
+    }
+    public void withdrawAmount(Account account,double amount) {
+    	account.setBalance(account.getBalance()-amount);
+    }
+    
+    public boolean checkTransferLimit(Account account,double amount,TransferInfo transferInfo) {
+    	
+    	TransferLimitManager tranaferLimitManager=new TransferLimitManager();
+    	
+    	double transferLimit=tranaferLimitManager.getTransferLimit(account.getPrivilege());
+    	
+    	TransferLog transferLog=new TransferLog();
+    	
+    	double totalAmountTransfered=transferLog.totalAmountTransfered(transferInfo, account);
+    	System.out.println("total amount transfere "+totalAmountTransfered);
+    	if(amount<=transferLimit)
+    		if(totalAmountTransfered==0 || amount<=totalAmountTransfered)
+    			return true;
+    		else
+    			return false;
+    		
+    	else
+    		return false;
+    	
+    }
+    
+    public void transferAmount(Account fromAccount,Account toAccount,TransferInfo transferInfo) {
+    	
+    	fromAccount.setBalance(fromAccount.getBalance()-transferInfo.getTransferAmount());
+    	toAccount.setBalance(transferInfo.getTransferAmount()+toAccount.getBalance());
+    	   
+    	}
+    }

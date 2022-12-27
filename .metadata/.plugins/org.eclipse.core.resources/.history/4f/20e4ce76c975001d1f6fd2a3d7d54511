@@ -1,0 +1,448 @@
+package com.Application;
+
+
+import java.time.LocalDate;
+import java.util.Scanner;
+
+import javax.naming.InvalidNameException;
+
+//Boundary Class - this class has implementation which is interacting with the user
+public class AccountForm {
+
+    public void loadForm() throws InvalidInputException, InvalidPinNumberException, AccountNotActiveException, InsufficientBalanceException{
+        //This is the first method that is going to be called when the application
+        //starts
+    	while(true) {
+	        System.out.println("Hello. Welcome to Pratian Bank Pvt Ltd.,\n");
+	        System.out.println("How can I help you ?\n");
+	
+	        System.out.println("1. Open an Account");
+	        System.out.println("2. Close an Account");
+	        System.out.println("3. Withdraw from an Account");
+	        System.out.println("4. Deposit into an Account");
+	        System.out.println("5. Transfer funds to an Account");
+	        System.out.println("6. Get Account details ");
+	        System.out.println("7. Get Transfer details \n\n");
+	
+	        String choice = new Scanner(System.in).nextLine();
+	
+	        if(choice.equalsIgnoreCase("1")){
+	            open();
+	        }
+	        else if(choice.equalsIgnoreCase("2")){
+	            close();
+	        }
+	        else if(choice.equalsIgnoreCase("3")){
+	            withdraw();
+	        }
+	        else if(choice.equalsIgnoreCase("4")){
+	            deposit();
+	        }
+	        else if(choice.equalsIgnoreCase("5")){
+	            transfer();
+	        }
+	        else if(choice.equalsIgnoreCase("6")){
+	        	printAccountDetails();
+	        }
+	        else if(choice.equalsIgnoreCase("7")) {
+	        TransferLog transferLog=new TransferLog();
+	        transferLog.transferdetails();
+	        }
+	        
+    	}
+    }
+    
+
+    protected void open() throws InvalidInputException{
+
+        //Declaration and Initialization
+        var scanner = new Scanner(System.in);
+
+        //1. Get the type of account user wants to open
+        System.out.println("Which account do you want to open?");
+        System.out.println("Savings");
+        System.out.println("Current");
+        String accType = scanner.nextLine();
+
+        //2. Get data from the user - Savings or Current
+        if(accType.equalsIgnoreCase("Savings")){
+
+            //Get savings account information from the user
+            var savings = getSavingsAccountInformation();
+            
+            //Validate the boundary rules here
+            if(validateSavingsAccountInfo(savings)){
+
+                //3. Open the account according to the account type given
+                //Call the manager to open the account
+                boolean isOpened = openAccount(savings, accType);
+                AccountManager accountManager=new AccountManager();
+                accountManager.addAccountToAccountLog(savings);
+                //4. Communicate the status back to the user
+                //Display the account opening status
+                displayAccountOpenStatus(isOpened);
+            }
+           
+
+        }
+        else if(accType.equalsIgnoreCase("Current")){
+
+            //Get current account information from the user
+            var current = getCurrentAccountInformation();
+
+            //Validate the boundary rules here
+            if(validateCurrentAccountInfo(current)){
+
+
+                //3. Open the account according to the account type given
+                
+                boolean isOpened = openAccount(current, accType);
+                //Call the manager to open the account
+                AccountManager accountManager=new AccountManager();
+                accountManager.addAccountToAccountLog(current);
+   
+                //Display the account opening status
+                displayAccountOpenStatus(isOpened);
+            }
+        }
+    }
+
+    protected Current getCurrentAccountInformation(){
+
+        //Declaration and Initialization
+        var scanner = new Scanner(System.in);
+
+        //Store data into the object
+        System.out.println("Enter Name : ");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter Company Name : ");
+        String companyName = scanner.nextLine();
+
+        System.out.println("Enter Website URL : ");
+        String websiteURL = scanner.nextLine();
+
+        System.out.println("Enter Registration Number : ");
+        String registrationNumber = scanner.nextLine();
+
+        System.out.println("Enter Pin Number : ");
+        int pinNumber = scanner.nextInt();
+
+        //Create the object and store data
+        var current = new Current();
+        current.setAccountNumber();
+        current.setAccountName(name);
+        current.setCompanyName(companyName);
+        current.setRegistrationNumber(registrationNumber);
+        current.setWebsiteURL(websiteURL);
+        current.setPinNumber(pinNumber);
+
+        //Returning the current object created
+        return current;
+    }
+
+    protected Savings getSavingsAccountInformation(){
+
+        //Declaration and Initialization
+        var scanner = new Scanner(System.in);
+
+        
+        System.out.println("Enter Name : ");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter Gender : ");
+        String gender = scanner.nextLine();
+        
+        System.out.println("Enter birthdate in yyyy-mm-dd format  :");
+        LocalDate dateOfBirth = null;
+        try {
+    		String dateOfBirthString=scanner.nextLine();
+    		dateOfBirth = LocalDate.parse(dateOfBirthString);  
+    	}
+    	catch(Exception e){
+    		System.out.println(e);
+    	}
+        
+        System.out.println("Enter Phone Number : ");
+        String phoneNumber = scanner.nextLine();
+
+        System.out.println("Enter Pin Number : ");
+        int pinNumber = scanner.nextInt();
+        
+        
+        //Create the object and store data
+        var savings = new Savings();
+        savings.setAccountNumber();
+        savings.setAccountName(name);
+        savings.setGender(gender);
+        savings.setPhoneNumber(phoneNumber);
+        savings.setPinNumber(pinNumber);
+        savings.setDateOfBirth(dateOfBirth);
+        //Returning the savings object created
+        return savings;
+    }
+
+    protected boolean validateSavingsAccountInfo(Savings savings){
+
+        //Declaration
+        boolean isValid = false;
+
+        //Logic
+        try {
+        	if(savings.getAccountName()==null || savings.getAccountName().equalsIgnoreCase(" ")) {
+        		throw new InvalidInputException("Invalid Name");
+        	}
+	        if(savings.getPhoneNumber()==null || savings.getPhoneNumber().length()<10 || savings.getPhoneNumber().length()>10) {
+	        	throw new InvalidPhoneNumberException("Invalid phone number exception");
+	        }
+    	}
+        catch(InvalidPhoneNumberException e) {
+        	System.out.println(e.getMessage());
+        	return false;
+        }
+        catch(InvalidInputException e) {
+        	System.out.println(e.getMessage());
+        	return false;
+        }
+        //Mandatory fields are entered
+
+        //If everything is fine then
+        isValid = true;
+
+        //Return the status
+        return isValid;
+    }
+
+    protected boolean validateCurrentAccountInfo(Current current) throws InvalidInputException{
+
+        //Declaration
+        boolean isValid = false;
+
+        //Logic
+        try {
+        	//Registration Number shouldn't be null
+	        if(current.getRegistrationNumber()==null) {
+	        	throw new InvalidInputException("Registration number is null");
+	        }
+	      //Company Name shouldn't be null
+	        if(current.getCompanyName()==null)
+	        	throw new InvalidInputException("Company name should not be null");
+        }
+        catch(InvalidInputException e) {
+        	System.out.println(e.getMessage());
+        }
+        
+
+        //If everything is fine then
+        isValid = true;
+
+        //Return the status
+        return isValid;
+    }
+
+    protected void displayAccountOpenStatus(boolean isOpened){
+
+        if(isOpened){
+            System.out.println("Account Opened Successfully !!!");
+        }
+        else
+            System.out.println("Sorry !!! Couldn't open account");
+    }
+
+    protected boolean openAccount(Account account, String accType){
+
+        //Declaration
+        boolean isOpened = false;
+
+        //Logic
+        //Execute the logic of Opening the account;
+        var accountManager = new AccountManager();
+        try {
+            isOpened = accountManager.open(account, accType);
+        } catch (InvalidAgeForOpeningAnAccountException e) {
+            e.printStackTrace();
+        }
+
+        //Return the status
+        return isOpened;
+    }
+    
+
+    protected void close() throws InvalidPinNumberException{
+    	Scanner scanner=new Scanner(System.in);
+    	System.out.println("Enter account Number :");
+    	int accountNumber=scanner.nextInt();
+    	
+ 
+    	System.out.println("Enter pin number :");
+    	int pinNumber=scanner.nextInt();
+    	//calling the manager to close account
+    	AccountManager accountManager=new AccountManager();
+    	//getting status from manager
+    	boolean isClosed=accountManager.close(accountNumber, pinNumber);
+    	//displaying status to the user
+    	accountCloseStatus(isClosed);
+
+    }
+
+    protected void withdraw() throws AccountNotActiveException, InsufficientBalanceException{
+    	Scanner scanner=new Scanner(System.in);
+    	System.out.println("Enter account Number :");
+    	int accountNumber=scanner.nextInt();
+    	
+    	System.out.println("Enter pin number :");
+    	int pinNumber=scanner.nextInt();
+    	
+    	System.out.println("Enter amount to be withdraw :");
+    	double amount=scanner.nextDouble();
+    	
+    	//calling manager
+    	AccountManager accountManager=new AccountManager();
+    	
+    	//getting status from manager 
+    	boolean isWithdrawn=accountManager.withdraw(accountNumber, pinNumber, amount);
+    	
+    	//displaying status to user
+    	withdrawnStatus(isWithdrawn,accountNumber,amount);
+    }
+
+    protected void deposit() throws AccountNotActiveException, InvalidPinNumberException{
+    	Scanner scanner=new Scanner(System.in);
+    	System.out.println("Enter account Number :");
+    	int accountNumber=scanner.nextInt();
+    	
+    	
+    	System.out.println("Enter pi number :");
+    	int pinNumber=scanner.nextInt();
+    	
+    	System.out.println("Enter amount to be deposit :");
+    	double amount=scanner.nextDouble();
+    	
+    	AccountManager accountManager=new AccountManager();
+    	boolean isDeposited=accountManager.deposit(accountNumber, pinNumber,amount);
+    	depositStatus(isDeposited,accountNumber,amount);
+    	
+    }
+
+    protected void transfer() throws AccountNotActiveException, InsufficientBalanceException{
+    	Scanner scanner=new Scanner(System.in);
+    	
+    	TransferInfo transferInfo=getTransferDetails();
+    	AccountManager accountManager=new AccountManager();
+    	System.out.println("Enter the from account pin number :");
+    	int pinNumber=scanner.nextInt();
+    	Account fromAccount=accountManager.getAccountFromManager(transferInfo.getFromAccountNumber());
+    	Account toAccount=accountManager.getAccountFromManager(transferInfo.getToAccountNumber());
+    	//validate pin
+    	boolean isPinValid=accountManager.validatePinNumber(pinNumber, fromAccount);
+    	
+    	if(isPinValid) {
+    		accountManager.transfer(transferInfo, fromAccount, toAccount);
+    		System.out.println("Transfer done");
+    	}
+    	else {
+    		System.out.println("Transfer Cannot be done");
+    	}
+    	
+    }
+    
+    public static void printAccountDetails() throws InvalidPinNumberException  {
+    	Scanner scanner=new Scanner(System.in);
+    	int accountNumber;
+    	
+    	System.out.println("Enter the Account number :");
+    	accountNumber=scanner.nextInt();
+    	
+		AccountManager accountManager=new AccountManager();
+		//call the manager to validate
+		Account account=accountManager.getAccountFromManager(accountNumber);
+		//validate pin
+		boolean isPinValid=accountManager.validatePinNumber(account.getPinNumber(), account);
+		if(isPinValid) {
+			
+			if(account instanceof Savings) {
+				Savings savings=(Savings)account;
+				System.out.println("Account name :"+savings.getAccountNumber());
+				System.out.println("Account number :"+savings.getAccountName());
+				System.out.println("Balance :"+savings.getBalance());
+			}
+			else {
+				Current current=(Current)account;
+				System.out.println("Account name :"+current.getAccountNumber());
+				System.out.println("Account number :"+current.getAccountName());
+				System.out.println("Balance :"+current.getBalance());
+				System.out.println("Company name :"+current.getCompanyName());
+				System.out.println("Registration no :"+current.getRegistrationNumber());
+			}
+		}
+		else {
+			throw new InvalidPinNumberException("Invalid pin number");
+		}
+	}
+    
+    protected void accountCloseStatus(boolean isClosed) {
+    	if(isClosed)
+    		System.out.println("Account closed succesfully ");
+    	else {
+    		System.out.println("Account could not be closed ");
+    	}
+    }
+    
+    protected void depositStatus(boolean isDeposited,int accountNumber,double amount) {
+    	if(isDeposited) {
+    		System.out.println("you'r account with "+accountNumber+"is deposited of "+amount+" on "+LocalDate.now());
+    	}
+    	else {
+    		System.out.println("Deposi process is unsuccessful");
+    	}
+    }
+    
+    protected void withdrawnStatus(boolean isWithdrawn,int accountNumber,double amount) {
+    	if(isWithdrawn) {
+    		System.out.println("you're account with "+accountNumber+"is debited of "+amount+" on "+LocalDate.now());
+    	}
+    	else {
+    		System.out.println("Withdrawn unsuccessful");
+    	}
+    }
+    
+    public TransferMode getTranferMode() {
+    	System.out.println("Select transfer mode: 1. NEFT  2. RTGS  3.IMPS");
+    	int choice=new Scanner(System.in).nextInt();
+    	TransferMode transferMode=null;
+    	if(choice==1)
+    		transferMode =TransferMode.NEFT;
+    	else if(choice==2)
+    		transferMode= TransferMode.RTGS;
+    	else if(choice==3)
+    		transferMode= TransferMode.IMPS;
+    	
+    	return transferMode;
+    }
+    
+    public TransferInfo getTransferDetails() {
+    	Scanner scanner=new Scanner(System.in);
+
+    	System.out.println("Enter Account Number :");
+    	int fromAccountNumber=scanner.nextInt();
+    	
+    	System.out.println("Enter Receiver Account Number :");
+    	int toAccountNumber=scanner.nextInt();
+    	
+    	
+    	System.out.println("Enter amount to be transfered :");
+    	double amount=scanner.nextInt();
+    	
+    	TransferMode tranferMode=getTranferMode();
+    	TransferInfo transferInfo=new TransferInfo();
+    	transferInfo.setFromAccountNumber(fromAccountNumber);
+    	transferInfo.setToAccountNumber(toAccountNumber);
+    	transferInfo.setTransferAmount(amount);
+    	transferInfo.setTransferMode(tranferMode);
+    	transferInfo.setTransferId();
+    	
+    	return transferInfo;
+    	
+    }
+    
+}
